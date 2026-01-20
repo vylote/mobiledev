@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:text="FirstAppCNTT4"
+        android:background="#002AFC"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/uName"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Họ và tên"
+        android:textColor="@android:color/black"
+        android:textColorHint="#888888"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_title" />
+
+    <EditText
+        android:id="@+id/uPhone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="phone"
+        android:hint="Số điện thoại"
+        android:textColor="@android:color/black"
+        android:textColorHint="#888888"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uName" />
+
+    <RadioGroup
+        android:id="@+id/rdGender"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uPhone">
+
+        <RadioButton
+            android:id="@+id/rdbNam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="Nam" />
+
+        <RadioButton
+            android:id="@+id/rdbNu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="Nữ" />
+    </RadioGroup>
+    <Spinner
+        android:id="@+id/spHomeTown"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:backgroundTint="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rdGender" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spHomeTown">
+
+        <CheckBox
+            android:id="@+id/cbH1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bóng đá"
+            android:textColor="@android:color/black"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <CheckBox
+            android:id="@+id/cbH2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cờ vua"
+            android:textColor="@android:color/black"
+            app:layout_column="0"
+            app:layout_row="1" />
+
+        <CheckBox
+            android:id="@+id/cbH3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bóng chày"
+            android:textColor="@android:color/black"
+            app:layout_column="1"
+            app:layout_row="1" />
+
+        <CheckBox
+            android:id="@+id/cbH4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bóng rổ"
+            android:textColor="@android:color/black"
+            app:layout_column="2"
+            app:layout_row="1" />
+
+        <CheckBox
+            android:id="@+id/cbH5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bóng niter"
+            android:textColor="@android:color/black"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+        <CheckBox
+            android:id="@+id/cbH6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhảy"
+            android:textColor="@android:color/black"
+            app:layout_column="2"
+            app:layout_row="0" />
+    </androidx.gridlayout.widget.GridLayout>
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="ADD"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+    <ListView
+        android:id="@+id/listView3"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

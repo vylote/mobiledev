@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">multiactivity</string>
+    <string name="hint_id">ID</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_phone">Phone</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="search_hint">Search...</string>
+</resources>

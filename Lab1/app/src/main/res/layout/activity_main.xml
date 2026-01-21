@@ -22,10 +22,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/ic_account"
+        android:background="#EEEEEE"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_title" />
+
     <EditText
         android:id="@+id/uName"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="text"
         android:hint="Họ và tên"
@@ -34,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_title" />
+        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
 
     <EditText
         android:id="@+id/uPhone"
@@ -73,12 +86,15 @@
             android:textColor="@android:color/black"
             android:text="Nữ" />
     </RadioGroup>
+
     <Spinner
         android:id="@+id/spHomeTown"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rdGender" />
 
@@ -86,8 +102,9 @@
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="96dp"
-
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spHomeTown">
 
@@ -99,7 +116,6 @@
             android:textColor="@android:color/black"
             app:layout_column="0"
             app:layout_row="0" />
-
         <CheckBox
             android:id="@+id/cbH2"
             android:layout_width="wrap_content"
@@ -108,7 +124,6 @@
             android:textColor="@android:color/black"
             app:layout_column="0"
             app:layout_row="1" />
-
         <CheckBox
             android:id="@+id/cbH3"
             android:layout_width="wrap_content"
@@ -117,7 +132,6 @@
             android:textColor="@android:color/black"
             app:layout_column="1"
             app:layout_row="1" />
-
         <CheckBox
             android:id="@+id/cbH4"
             android:layout_width="wrap_content"
@@ -126,7 +140,6 @@
             android:textColor="@android:color/black"
             app:layout_column="2"
             app:layout_row="1" />
-
         <CheckBox
             android:id="@+id/cbH5"
             android:layout_width="wrap_content"
@@ -135,7 +148,6 @@
             android:textColor="@android:color/black"
             app:layout_column="1"
             app:layout_row="0" />
-
         <CheckBox
             android:id="@+id/cbH6"
             android:layout_width="wrap_content"
@@ -150,22 +162,25 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@android:color/darker_gray"
         android:text="ADD"
         android:textColor="@android:color/black"
-        android:backgroundTint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
 
     <ListView
         android:id="@+id/listView3"
         android:layout_width="match_parent"
-        android:layout_height="275dp"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAdd"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

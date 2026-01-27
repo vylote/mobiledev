@@ -123,6 +123,19 @@ public class MainActivity extends AppCompatActivity {
     private void setUpEvents() {
         // Code xử lý sự kiện giữ nguyên không đổi
         btnAdd.setOnClickListener(v -> {
+            for (ContactItem item : originalData) {
+                item.status = false;
+            }
+            // Cập nhật lại giao diện ngay để người dùng thấy dấu tích biến mất
+            adapter.notifyDataSetChanged();
+
+            /*for (ContactItem item : originalData) {
+                if (item.status) {
+                    Toast.makeText(this, "Ban k the them nguoi nay vi ho da ton tai", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }*/
+
             Intent intent = new Intent(MainActivity.this, AddContactActivity.class);
             startActivityForResult(intent, REQ_ADD_CONTACT);
         });

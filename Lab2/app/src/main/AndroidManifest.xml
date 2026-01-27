@@ -13,8 +13,13 @@
         android:theme="@style/Theme.Lab2"
         tools:targetApi="31">
 
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:windowSoftInputMode="adjustResize">-->
+
         <activity
-            android:name=".MainActivity"
+            android:name=".TestMainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
 
@@ -28,9 +33,15 @@
             android:name=".AddContactActivity"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity android:name=".TestAddContactActivity"
+            android:windowSoftInputMode="adjustResize"/>
+
         <activity
             android:name=".EditContactActivity"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".TestEditContactActivity"
+            android:windowSoftInputMode="adjustResize"/>
 
     </application>
 

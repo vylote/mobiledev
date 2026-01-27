@@ -40,7 +40,7 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         if (s.getImageUri() != null) {
             ivAvatar.setImageURI(s.getImageUri());
         } else {
-            ivAvatar.setImageResource(android.R.drawable.ic_menu_camera);
+            ivAvatar.setImageResource(R.drawable.ic_account);
         }
 
         return rowView;

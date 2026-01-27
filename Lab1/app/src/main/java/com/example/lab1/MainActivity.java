@@ -20,9 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable; // Import này để dùng @Nullable
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -41,12 +40,14 @@ public class MainActivity extends AppCompatActivity {
     ListView l;
     ImageView ivAvatar;
 
-    // --- 1. SỬA KHAI BÁO TẠI ĐÂY ---
-    ArrayList<Student> data; // Đổi từ String sang Student
-    StudentAdapter adapter;  // Đổi từ ArrayAdapter sang StudentAdapter
+    ArrayList<Student> data;
+    StudentAdapter adapter;
 
-    Uri selectedImageUri = null; // Biến lưu ảnh tạm thời
-    ActivityResultLauncher<Intent> imagePickerLauncher;
+    // Biến lưu ảnh tạm thời
+    Uri selectedImageUri = null;
+
+    // Mã Request Code để nhận diện việc chọn ảnh (số nào cũng được)
+    int REQUEST_CODE_IMAGE = 999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,25 +69,16 @@ public class MainActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAdd);
         l = findViewById(R.id.listView3);
 
-        // Launcher chọn ảnh
-        imagePickerLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                        selectedImageUri = result.getData().getData();
-                        ivAvatar.setImageURI(selectedImageUri);
-                    }
-                }
-        );
-
+        // --- SỬA ĐỔI: Dùng startActivityForResult ---
         ivAvatar.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            imagePickerLauncher.launch(intent);
+            // Gọi Intent và chờ kết quả trả về với mã 999
+            startActivityForResult(intent, REQUEST_CODE_IMAGE);
         });
 
         // Setup Spinner
-        String[] queQuan = {"Quê quán","Hà Nội", "Nam Định", "Hà Nam", "Thái Bình", "Hải Phòng"};
-        ArrayAdapter<String> sp = new ArrayAdapter<String>(this, R.layout.sp_item, R.id.spItem, queQuan){
+        String[] queQuan = {"Quê quán", "Hà Nội", "Nam Định", "Hà Nam", "Thái Bình", "Hải Phòng"};
+        ArrayAdapter<String> sp = new ArrayAdapter<String>(this, R.layout.sp_item, R.id.spItem, queQuan) {
             @Override public boolean isEnabled(int position) { return position != 0; }
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -104,16 +96,11 @@ public class MainActivity extends AppCompatActivity {
         spHomeTown.setAdapter(sp);
         spHomeTown.setSelection(0);
 
-        // --- 2. SỬA KHỞI TẠO LIST VÀ ADAPTER TẠI ĐÂY ---
+        // Setup ListView
         data = new ArrayList<>();
-
-        // Tạo ảnh mẫu cho dữ liệu có sẵn
         Uri defaultImg = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.pic1);
-
-        // Thêm Student thay vì String
         data.add(new Student("Le Thanh Vy - 3423432 - Nam - Ha Noi", defaultImg));
 
-        // Khởi tạo StudentAdapter (Custom Adapter)
         adapter = new StudentAdapter(this, data);
         l.setAdapter(adapter);
 
@@ -133,10 +120,18 @@ public class MainActivity extends AppCompatActivity {
             String ht = spHomeTown.getSelectedItemId() > 0 ? spHomeTown.getSelectedItem().toString() : "";
             if (ht.equals("")) { Toast.makeText(this, "Thiếu quê quán", Toast.LENGTH_SHORT).show(); return; }
 
-            String info = name + " - " + phone + " - " + gender + " - " + ht;
+            String hobby = "";
+            if (cbH1.isChecked()) hobby += cbH1.getText().toString();
+            if (cbH2.isChecked()) hobby += cbH2.getText().toString();
+            if (cbH3.isChecked()) hobby += cbH3.getText().toString();
+            if (cbH4.isChecked()) hobby += cbH4.getText().toString();
+            if (cbH5.isChecked()) hobby += cbH5.getText().toString();
+            if (cbH6.isChecked()) hobby += cbH6.getText().toString();
 
-            // --- 3. SỬA LẠI LOGIC THÊM VÀO LIST ---
-            // Tạo đối tượng Student từ thông tin và ảnh đang chọn (selectedImageUri)
+
+            String info = name + " - " + phone + " - " + gender + " - " + ht+" - "+hobby;
+
+            // Thêm vào list
             data.add(new Student(info, selectedImageUri));
             adapter.notifyDataSetChanged();
 
@@ -158,5 +153,19 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    // --- HÀM NÀY ĐỂ NHẬN KẾT QUẢ TRẢ VỀ ---
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Kiểm tra đúng mã Request (999) và kết quả OK
+        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK && data != null) {
+            // Lấy đường dẫn ảnh
+            selectedImageUri = data.getData();
+            // Hiển thị lên ImageView
+            ivAvatar.setImageURI(selectedImageUri);
+        }
     }
 }

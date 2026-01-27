@@ -28,10 +28,10 @@ class ContactAdapter extends ArrayAdapter<ContactItem> {
         row.bind(item);
 
         row.cb.setOnCheckedChangeListener(null);
-        row.cb.setChecked(item.isChecked);
+        row.cb.setChecked(item.status);
 
         row.cb.setOnCheckedChangeListener((btn, checked) -> {
-            item.isChecked = checked;
+            item.status = checked;
         });
 
         return row;

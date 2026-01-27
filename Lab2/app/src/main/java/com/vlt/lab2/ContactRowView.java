@@ -92,7 +92,7 @@ public class ContactRowView extends LinearLayout {
     public void bind(ContactItem item) {
         name.setText(item.name);
         phone.setText(item.phone);
-        cb.setChecked(item.isChecked);
+        cb.setChecked(item.status);
 
         if (item.imagePath != null) {
             img.setImageURI(Uri.parse(item.imagePath));
@@ -108,6 +108,9 @@ public class ContactRowView extends LinearLayout {
         return d;
     }
 
+    /*Lấy mật độ điểm ảnh của màn hình hiện tại (Ví dụ: màn hình 2x, 3x, 4x...).
+    Công thức: Pixel = dp * mật độ.
+    Hàm này giúp bạn tư duy theo đơn vị dp (giống XML) nhưng trả về giá trị px để máy hiểu.*/
     private int dp(int v) {
         return (int) (v * getResources().getDisplayMetrics().density);
     }

@@ -49,7 +49,7 @@ public class TestMainActivity extends AppCompatActivity {
         // Copy dữ liệu gốc sang hiển thị
         displayData.addAll(originalData);
 
-        adapter = new ContactAdapter(this, displayData);
+        adapter = new TestContactAdapter(this, displayData);
         listView.setAdapter(adapter);
 
         setUpEvents();

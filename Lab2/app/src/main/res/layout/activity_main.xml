@@ -1,67 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@android:color/white"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/edSearch"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical">
+        android:layout_margin="16dp"
+        android:hint="Tìm kiếm họ tên..."
+        android:inputType="textPersonName"
 
-        <EditText
-            android:id="@+id/edSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tìm kiếm họ tên..."
-            android:inputType="textPersonName" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <View
+        android:id="@+id/viewBottomBg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#F0F0F0"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnAdd"
+        android:layout_marginTop="-10dp" />
     <ListView
         android:id="@+id/listView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_marginTop="8dp"
 
-    <LinearLayout
-        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/edSearch"
+        app:layout_constraintBottom_toTopOf="@id/viewBottomBg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:gravity="center"
-        android:background="#F0F0F0">
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="THÊM MỚI"
 
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="THÊM MỚI" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnDelete"
+        app:layout_constraintHorizontal_weight="1" />
 
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="XÓA CHỌN" />
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="XÓA CHỌN"
 
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="SỬA" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnAdd"
+        app:layout_constraintEnd_toStartOf="@id/btnEdit"
+        app:layout_constraintHorizontal_weight="1" />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="SỬA"
 
-</LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnDelete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

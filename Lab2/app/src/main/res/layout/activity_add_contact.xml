@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:padding="32dp"
     android:background="@android:color/white"
     android:fitsSystemWindows="true">
@@ -13,48 +14,75 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
         android:background="@drawable/circle_bg_gray"
         android:scaleType="centerCrop"
         android:src="@android:drawable/ic_menu_camera"
-        android:clipToOutline="true" />
+        android:clipToOutline="true"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/edName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:hint="Nhập họ tên"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+
+        app:layout_constraintTop_toBottomOf="@id/imgAvatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/edPhone"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="Nhập số điện thoại"
-        android:inputType="phone" />
+        android:inputType="phone"
 
-    <LinearLayout
-        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/edName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <CheckBox
+        android:id="@+id/cbStatus"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingTop="50dp">
+        android:layout_marginTop="20dp"
+        android:checked="false"
+        android:text="Hiện có"
 
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
-            android:text="SAVE" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edPhone" />
 
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="10dp"
-            android:text="CANCEL" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="10dp"
+        android:text="SAVE"
 
-</LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/cbStatus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnCancel"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="CANCEL"
+
+        app:layout_constraintTop_toTopOf="@id/btnSave"
+        app:layout_constraintStart_toEndOf="@id/btnSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ public class TestAddContactActivity extends AppCompatActivity {
     ImageView imgAvatar;
     EditText edName, edPhone;
     Button btnSave, btnCancel;
+    CheckBox cbStatus;
 
     String selectedImagePath = null;
     static final int REQ_PICK_IMAGE = 101;
@@ -32,6 +34,8 @@ public class TestAddContactActivity extends AppCompatActivity {
         edPhone = findViewById(R.id.edPhone);
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
+        cbStatus = findViewById(R.id.cbStatus);
+
 
         // --- CÁC SỰ KIỆN (Logic giữ nguyên) ---
 
@@ -46,6 +50,7 @@ public class TestAddContactActivity extends AppCompatActivity {
         btnSave.setOnClickListener(v -> {
             String name = edName.getText().toString();
             String phone = edPhone.getText().toString();
+            boolean status = cbStatus.isChecked();
 
             if (name.isEmpty() || phone.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
@@ -53,7 +58,7 @@ public class TestAddContactActivity extends AppCompatActivity {
             }
 
             // Tạo object ContactItem
-            ContactItem newContact = new ContactItem(name, phone, false, selectedImagePath);
+            ContactItem newContact = new ContactItem(name, phone, status, selectedImagePath);
 
             // Trả dữ liệu về MainActivity
             Intent resultIntent = new Intent();

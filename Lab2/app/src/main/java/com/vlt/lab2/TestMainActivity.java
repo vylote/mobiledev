@@ -1,7 +1,9 @@
 package com.vlt.lab2;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -30,7 +32,9 @@ public class TestMainActivity extends AppCompatActivity {
     ContactActionHandler actionHandler;
     ArrayAdapter<ContactItem> adapter;
 
-    static final int REQ_ADD_CONTACT = 999, REQ_EDIT_CONTACT = 1000;
+    private int currentSelectedPosition = -1;
+    static final int REQ_ADD_CONTACT = 999, REQ_EDIT_CONTACT = 1000,
+            REQ_OPEN_CAMERA = 101, REQ_OPEN_GALLERY = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +109,11 @@ public class TestMainActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        // Ví dụ: Nạp menu từ file xml trong thư mục res/menu/
+
+        // Ép kiểu để lấy vị trí
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        currentSelectedPosition = info.position; // Lưu lại ngay lập tức
+
         getMenuInflater().inflate(R.menu.contact_context_menu, menu);
     }
 
@@ -143,6 +151,28 @@ public class TestMainActivity extends AppCompatActivity {
                 // Quan trọng: Sau khi update, phải gọi lại filter để đồng bộ danh sách hiển thị
                 repo.filter(edSearch.getText().toString());
                 adapter.notifyDataSetChanged();
+            }
+        }
+
+        if (requestCode == REQ_OPEN_CAMERA || requestCode == REQ_OPEN_GALLERY) {
+            if (currentSelectedPosition != -1) {
+                ContactItem selectedItem = repo.getDisplayData().get(currentSelectedPosition);
+
+                if (requestCode == REQ_OPEN_GALLERY) {
+                    selectedItem.setImagePath(data.getData().toString());
+                } else {
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+                    String path = MediaStore.Images.Media
+                            .insertImage(getContentResolver(),
+                                    photo,
+                                    "Avatar_" + System.currentTimeMillis(), null);
+                    selectedItem.setImagePath(path);
+                }
+
+                adapter.notifyDataSetChanged();
+                currentSelectedPosition = -1;
+                Toast.makeText(this, "Cập nhật ảnh đại diện thành công", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -42,12 +42,12 @@ public class TestEditContactActivity extends AppCompatActivity {
 
         // Đổ dữ liệu lên giao diện (Binding)
         if (item != null) {
-            edName.setText(item.name);
-            edPhone.setText(item.phone);
+            edName.setText(item.getName());
+            edPhone.setText(item.getPhone());
 
-            if (item.imagePath != null) {
-                selectedImagePath = item.imagePath; // Lưu lại đường dẫn cũ
-                imgAvatar.setImageURI(Uri.parse(item.imagePath));
+            if (item.getImagePath() != null) {
+                selectedImagePath = item.getImagePath(); // Lưu lại đường dẫn cũ
+                imgAvatar.setImageURI(Uri.parse(item.getImagePath()));
             } else {
                 selectedImagePath = null;
                 imgAvatar.setImageResource(android.R.drawable.ic_menu_camera);
@@ -75,15 +75,16 @@ public class TestEditContactActivity extends AppCompatActivity {
 
             // Cập nhật vào object cũ
             if (item != null) {
-                item.name = newName;
-                item.phone = newPhone;
-                item.imagePath = selectedImagePath;
+                item.setName(newName);
+                item.setPhone(newPhone);
+                item.setImagePath(selectedImagePath);
             }
 
             // Trả kết quả về
             Intent resultIntent = new Intent();
             resultIntent.putExtra("UPDATED_CONTACT", item);
             resultIntent.putExtra("REAL_INDEX", realIndex);
+
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         });

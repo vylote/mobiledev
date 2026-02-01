@@ -61,25 +61,25 @@ public class TestContactAdapter extends ArrayAdapter<ContactItem> {
         ContactItem item = data.get(position);
 
         // BƯỚC 3: ĐỔ DỮ LIỆU VÀO VIEW (BINDING)
-        holder.name.setText(item.name);
-        holder.phone.setText(item.phone);
+        holder.name.setText(item.getName());
+        holder.phone.setText(item.getPhone());
 
         // --- Xử lý Checkbox ---
         // Quan trọng: Phải gỡ listener cũ ra trước khi setChecked
         // Nếu không, khi setChecked(true) code sẽ tưởng người dùng bấm và kích hoạt logic sai
         holder.cb.setOnCheckedChangeListener(null);
 
-        holder.cb.setChecked(item.status);
+        holder.cb.setChecked(item.isStatus());
 
         // Gắn sự kiện mới: Cập nhật status vào object gốc khi người dùng bấm
         holder.cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            item.status = isChecked;
+            item.setStatus( isChecked);
         });
 
         // --- Xử lý Ảnh ---
-        if (item.imagePath != null) {
+        if (item.getImagePath() != null) {
             // Nếu có đường dẫn ảnh thì load ảnh
-            holder.img.setImageURI(Uri.parse(item.imagePath));
+            holder.img.setImageURI(Uri.parse(item.getImagePath()));
         } else {
             // Nếu null thì để ảnh mặc định
             holder.img.setImageResource(android.R.drawable.ic_menu_camera);

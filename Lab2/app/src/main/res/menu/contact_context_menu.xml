@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_edit"
+        android:title="Sửa"/>
+    <item
+        android:id="@+id/menu_call"
+        android:title="Gọi điện thoại"/>
+    <item
+        android:id="@+id/menu_send"
+        android:title="Gửi tin nhắn"/>
+    <item
+        android:id="@+id/menu_share"
+        android:title="Chia sẻ"/>
+    <item
+        android:id="@+id/menu_shot"
+        android:title="Chụp ảnh"/>
+</menu>

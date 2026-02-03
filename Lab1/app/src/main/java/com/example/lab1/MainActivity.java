@@ -6,8 +6,12 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 
@@ -54,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // Thêm dòng này để thiết lập Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Ánh xạ View
         ivAvatar = findViewById(R.id.ivAvatar);
@@ -153,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        registerForContextMenu(l);
     }
 
     // --- HÀM NÀY ĐỂ NHẬN KẾT QUẢ TRẢ VỀ ---
@@ -167,5 +178,46 @@ public class MainActivity extends AppCompatActivity {
             // Hiển thị lên ImageView
             ivAvatar.setImageURI(selectedImageUri);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
+
+        if (item.getItemId() == R.id.menu_exit) {
+            finish(); // Thoát ứng dụng
+            return true;
+        } else if (item.getItemId() == R.id.ctx_edit) {
+            // Logic Sửa: Ví dụ lấy tên sinh viên đổ lại vào EditText
+            Student selectedStudent = data.get(index);
+            uName.setText(selectedStudent.getInfo());
+            Toast.makeText(this, "Đang sửa mục số " + (index + 1), Toast.LENGTH_SHORT).show();
+            return true;
+
+        } else if (item.getItemId() == R.id.ctx_delete) {
+            // Logic Xóa
+            data.remove(index);
+            adapter.notifyDataSetChanged();
+            Toast.makeText(this, "Đã xóa thành công", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(android.view.ContextMenu menu, View v, android.view.ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+        menu.setHeaderTitle("Tùy chọn sinh viên");
     }
 }

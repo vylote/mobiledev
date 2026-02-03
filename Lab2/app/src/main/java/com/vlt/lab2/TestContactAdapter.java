@@ -37,7 +37,7 @@ public class TestContactAdapter extends ArrayAdapter<ContactItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
-        // BƯỚC 1: KHỞI TẠO VIEW (Nếu chưa có)
+        //convert view chính là cái hàng cũ được đem xuống dưới để tái sử dụng
         if (convertView == null) {
             // "Thổi" file XML thành View thực tế
             LayoutInflater inflater = context.getLayoutInflater();

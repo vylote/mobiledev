@@ -1,6 +1,7 @@
 package com.vlt.lab2;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.MenuItem;
@@ -57,30 +58,10 @@ public class ContactActionHandler {
                 new MenuOption("Chọn từ thư viện", android.R.drawable.ic_menu_gallery)
             };
 
-            ArrayAdapter<MenuOption> adapter = new ArrayAdapter<>(
-                    activity,
-                    android.R.layout.select_dialog_item, // Layout mặc định của Android cho dialog có icon
-                    android.R.id.text1,
-                    items) {
-                @NonNull
-                @Override
-                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                    View v = super.getView(position, convertView, parent);
-                    TextView tv = v.findViewById(android.R.id.text1);
-
-                    // Đặt icon sang bên trái của văn bản
-                    tv.setCompoundDrawablesWithIntrinsicBounds(items[position].iconRes, 0, 0, 0);
-
-                    // Thêm khoảng cách giữa icon và chữ
-                    int dp5 = (int) (5 * activity.getResources().getDisplayMetrics().density);
-                    tv.setCompoundDrawablePadding(dp5);
-
-                    return v;
-                }
-            };
+            ImageSourceAdapter adapter = new ImageSourceAdapter(activity, items);
 
             // 3. Hiển thị AlertDialog
-            new android.app.AlertDialog.Builder(activity)
+            new AlertDialog.Builder(activity)
                     .setTitle("Chọn nguồn ảnh")
                     .setAdapter(adapter, (dialog, which) -> {
                         if (which == 0) {

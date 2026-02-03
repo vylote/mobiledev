@@ -14,9 +14,8 @@ import androidx.annotation.NonNull;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ContactActionHandler {
-    Activity activity;
+    private final Activity activity;
 
     public ContactActionHandler(Activity activity) {
         this.activity = activity;

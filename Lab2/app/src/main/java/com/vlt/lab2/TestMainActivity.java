@@ -27,7 +27,6 @@ public class TestMainActivity extends AppCompatActivity {
     EditText edSearch;
     Button btnAdd, btnDelete;
     ListView listView;
-
     ContactRepository repo;
     ContactActionHandler actionHandler;
     ArrayAdapter<ContactItem> adapter;

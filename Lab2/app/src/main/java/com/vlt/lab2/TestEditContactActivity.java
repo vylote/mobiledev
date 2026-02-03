@@ -37,7 +37,9 @@ public class TestEditContactActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
 
         // --- NHẬN DỮ LIỆU CŨ ---
+        // nhận cái dữ liệu từ Intent.putExtra("DATA_TO_EDIT")
         item = (ContactItem) getIntent().getSerializableExtra("DATA_TO_EDIT");
+        // nhận cái chỉ số từ Intent.putExtra("REAL_INDEX")
         realIndex = getIntent().getIntExtra("REAL_INDEX", -1);
 
         // Đổ dữ liệu lên giao diện (Binding)

@@ -38,6 +38,8 @@ public class ContactRepository {
         boolean deleted = false;
         for (int i = displayData.size() - 1; i >= 0; i--) {
             if (displayData.get(i).isStatus()) {
+                /*index original != index display vì khi
+                 search, filter, lọc thì index sẽ thay đổi*/
                 originalData.remove(displayData.get(i));
                 displayData.remove(i);
                 deleted = true;

@@ -1,4 +1,4 @@
-package com.vlt.lab2;
+package com.vlt.lab3;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,11 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-
 public class ContactActionHandler {
     private final Activity activity;
 
@@ -25,13 +20,13 @@ public class ContactActionHandler {
 
     public void handle(MenuItem item, ContactItem contact, int realIndex) {
         int id = item.getItemId();
-        
+
         if (id == R.id.menu_edit) {
-            Intent i = new Intent(activity, TestEditContactActivity.class);
+            Intent i = new Intent(activity, EditContactActivity.class);
             i.putExtra("DATA_TO_EDIT", contact);
             i.putExtra("REAL_INDEX", realIndex);
 
-            activity.startActivityForResult(i, TestMainActivity.REQ_EDIT_CONTACT);
+            activity.startActivityForResult(i, MainActivity.REQ_EDIT_CONTACT);
 
         } else if (id == R.id.menu_call) {
             Intent i = new Intent(Intent.ACTION_DIAL,
@@ -55,8 +50,8 @@ public class ContactActionHandler {
             activity.startActivity(Intent.createChooser(i, "Chia sẻ qua:"));
         } else if (id == R.id.menu_shot) {
             final MenuOption[] items= {
-                new MenuOption("Mở máy ảnh", android.R.drawable.ic_menu_camera),
-                new MenuOption("Chọn từ thư viện", android.R.drawable.ic_menu_gallery)
+                    new MenuOption("Mở máy ảnh", android.R.drawable.ic_menu_camera),
+                    new MenuOption("Chọn từ thư viện", android.R.drawable.ic_menu_gallery)
             };
 
             ImageSourceAdapter adapter = new ImageSourceAdapter(activity, items);
@@ -68,12 +63,12 @@ public class ContactActionHandler {
                         if (which == 0) {
                             // Mở Camera
                             Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                            activity.startActivityForResult(intent, TestMainActivity.REQ_OPEN_CAMERA);
+                            activity.startActivityForResult(intent, MainActivity.REQ_OPEN_CAMERA);
                         } else {
                             // Mở Bộ sưu tập (Gallery/DCIM)
                             Intent intent = new Intent(Intent.ACTION_PICK);
                             intent.setType("image/*");
-                            activity.startActivityForResult(intent, TestMainActivity.REQ_OPEN_GALLERY);
+                            activity.startActivityForResult(intent, MainActivity.REQ_OPEN_GALLERY);
                         }
                     })
                     .show();
@@ -83,8 +78,8 @@ public class ContactActionHandler {
                     .setMessage("Bạn có chắc chắn muốn xóa liên hệ " + contact.getName() + " không?")
                     .setPositiveButton("Xóa", (dialog, which) -> {
                         // Ép kiểu activity về TestMainActivity để gọi phương thức xóa hoặc truy cập repo
-                        if (activity instanceof TestMainActivity) {
-                            TestMainActivity main = (TestMainActivity) activity;
+                        if (activity instanceof MainActivity) {
+                            MainActivity main = (MainActivity) activity;
 
                             // Thực hiện xóa trong Repository sử dụng realIndex
                             main.repo.getOriginalData().remove(realIndex);

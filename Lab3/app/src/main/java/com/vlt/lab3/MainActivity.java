@@ -1,4 +1,4 @@
-package com.vlt.lab2;
+package com.vlt.lab3;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TestMainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     EditText edSearch;
     Button btnAdd, btnDelete;
@@ -43,7 +43,7 @@ public class TestMainActivity extends AppCompatActivity {
         repo = new ContactRepository(this);
         actionHandler = new ContactActionHandler(this);
 
-        adapter = new TestContactAdapter(this, repo.getDisplayData());
+        adapter = new ContactAdapter(this, repo.getDisplayData());
         listView.setAdapter(adapter);
 
         // Đã bỏ registerForContextMenu vì sẽ xử lý qua OnItemLongClickListener
@@ -63,7 +63,7 @@ public class TestMainActivity extends AppCompatActivity {
             if (hasSelection) {
                 toast("Vui lòng bỏ chọn các mục trước khi thêm mới!");
             } else {
-                startActivityForResult(new Intent(this, TestAddContactActivity.class), REQ_ADD_CONTACT);
+                startActivityForResult(new Intent(this, AddContactActivity.class), REQ_ADD_CONTACT);
             }
         });
 
@@ -95,7 +95,7 @@ public class TestMainActivity extends AppCompatActivity {
             currentSelectedPosition = position; // Lưu vị trí item được chọn
 
             // Khởi tạo PopupMenu tại vị trí View (item) đang nhấn giữ
-            PopupMenu popupMenu = new PopupMenu(TestMainActivity.this, view);
+            PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
             popupMenu.getMenuInflater().inflate(R.menu.contact_context_menu, popupMenu.getMenu());
 
             // Lắng nghe sự kiện click vào item trong menu

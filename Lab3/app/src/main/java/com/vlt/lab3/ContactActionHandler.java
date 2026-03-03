@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -54,11 +55,11 @@ public class ContactActionHandler {
 
             // 3. Hiển thị AlertDialog
             new AlertDialog.Builder(activity)
-                    .setTitle("Chọn nguồn ảnh")
+                    .setTitle("Chọn ảnh từ")
                     .setAdapter(adapter, (dialog, which) -> {
                         if (which == 0) {
                             // Mở Camera
-                            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             activity.startActivityForResult(intent, MainActivity.REQ_OPEN_CAMERA);
                         } else {
                             // Mở Bộ sưu tập (Gallery/DCIM)
@@ -73,7 +74,7 @@ public class ContactActionHandler {
                     .setTitle("Xác nhận xóa")
                     .setMessage("Bạn có chắc chắn muốn xóa liên hệ " + contact.getName() + " không?")
                     .setPositiveButton("Xóa", (dialog, which) -> {
-                        // Ép kiểu activity về TestMainActivity để gọi phương thức xóa hoặc truy cập repo
+                        // Ép kiểu activity về MainActivity để gọi phương thức xóa hoặc truy cập repo
                         if (activity instanceof MainActivity) {
                             MainActivity main = (MainActivity) activity;
 

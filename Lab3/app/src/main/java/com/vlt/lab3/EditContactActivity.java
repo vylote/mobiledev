@@ -18,7 +18,7 @@ public class EditContactActivity extends AppCompatActivity {
     Button btnSave, btnCancel;
 
     String selectedImagePath = null;
-    ContactItem item; // Lưu object đang sửa để cập nhật trực tiếp
+    ContactItem item;
     int realIndex = -1;
 
     static final int REQ_PICK_IMAGE = 101;
@@ -26,10 +26,8 @@ public class EditContactActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Nạp giao diện từ XML
         setContentView(R.layout.activity_edit_contact);
 
-        // Ánh xạ View
         imgAvatar = findViewById(R.id.imgAvatar);
         edName = findViewById(R.id.edName);
         edPhone = findViewById(R.id.edPhone);
@@ -56,16 +54,12 @@ public class EditContactActivity extends AppCompatActivity {
             }
         }
 
-        // --- SỰ KIỆN ---
-
-        // 1. Chọn ảnh mới
         imgAvatar.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_PICK);
             i.setType("image/*");
             startActivityForResult(i, REQ_PICK_IMAGE);
         });
 
-        // 2. Lưu thay đổi
         btnSave.setOnClickListener(v -> {
             String newName = edName.getText().toString();
             String newPhone = edPhone.getText().toString();
@@ -75,14 +69,12 @@ public class EditContactActivity extends AppCompatActivity {
                 return;
             }
 
-            // Cập nhật vào object cũ
             if (item != null) {
                 item.setName(newName);
                 item.setPhone(newPhone);
                 item.setImagePath(selectedImagePath);
             }
 
-            // Trả kết quả về
             Intent resultIntent = new Intent();
             resultIntent.putExtra("UPDATED_CONTACT", item);
             resultIntent.putExtra("REAL_INDEX", realIndex);
@@ -91,7 +83,6 @@ public class EditContactActivity extends AppCompatActivity {
             finish();
         });
 
-        // 3. Hủy bỏ
         btnCancel.setOnClickListener(v -> {
             setResult(Activity.RESULT_CANCELED);
             finish();

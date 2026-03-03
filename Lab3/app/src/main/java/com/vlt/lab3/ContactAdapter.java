@@ -48,8 +48,8 @@ public class ContactAdapter extends ArrayAdapter<ContactItem> {
             holder = new ViewHolder();
             holder.cb = convertView.findViewById(R.id.cbContact);
             holder.img = convertView.findViewById(R.id.imgAvatar);
-            holder.name = convertView.findViewById(R.id.tvName);     // ID bên XML
-            holder.phone = convertView.findViewById(R.id.tvPhone);   // ID bên XML
+            holder.name = convertView.findViewById(R.id.tvName);
+            holder.phone = convertView.findViewById(R.id.tvPhone);
 
             // Gắn cái mác (Tag) vào View để lần sau lấy ra dùng tiếp
             convertView.setTag(holder);

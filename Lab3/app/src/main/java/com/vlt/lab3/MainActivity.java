@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout .activity_main);
 
-        // Ánh xạ
         edSearch = findViewById(R.id.edSearch);
         listView = findViewById(R.id.listView);
         btnAdd = findViewById(R.id.btnAdd);
@@ -46,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ContactAdapter(this, repo.getDisplayData());
         listView.setAdapter(adapter);
 
-        // Đã bỏ registerForContextMenu vì sẽ xử lý qua OnItemLongClickListener
         setUpEvents();
     }
 
     private void setUpEvents() {
-        // 1. Sự kiện Thêm mới
         btnAdd.setOnClickListener(v -> {
             boolean hasSelection = false;
             for (ContactItem item : repo.getOriginalData()) {
@@ -67,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 2. Sự kiện Xóa các mục đã chọn qua CheckBox
         btnDelete.setOnClickListener(v -> {
             if (repo.deleteSelected()) {
                 adapter.notifyDataSetChanged();
@@ -77,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 3. Sự kiện Tìm kiếm
         edSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
-        // 4. SỰ KIỆN NHẤN GIỮ PHẦN TỬ (Refactored Context Menu)
+        //Refactored Context Menu
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             currentSelectedPosition = position; // Lưu vị trí item được chọn
 
@@ -98,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
             PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
             popupMenu.getMenuInflater().inflate(R.menu.contact_context_menu, popupMenu.getMenu());
 
-            // Lắng nghe sự kiện click vào item trong menu
             popupMenu.setOnMenuItemClickListener(item -> {
                 ContactItem selected = repo.getDisplayData().get(position);
                 int realIndex = repo.getOriginalData().indexOf(selected);

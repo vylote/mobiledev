@@ -25,10 +25,8 @@ public class AddContactActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Nạp giao diện từ XML
         setContentView(R.layout.activity_add_contact);
 
-        // Ánh xạ View
         imgAvatar = findViewById(R.id.imgAvatar);
         edName = findViewById(R.id.edName);
         edPhone = findViewById(R.id.edPhone);
@@ -36,17 +34,12 @@ public class AddContactActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         cbStatus = findViewById(R.id.cbStatus);
 
-
-        // --- CÁC SỰ KIỆN (Logic giữ nguyên) ---
-
-        // 1. Chọn ảnh
         imgAvatar.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_PICK);
             i.setType("image/*");
             startActivityForResult(i, REQ_PICK_IMAGE);
         });
 
-        // 2. Lưu (Save)
         btnSave.setOnClickListener(v -> {
             String name = edName.getText().toString();
             String phone = edPhone.getText().toString();
@@ -57,24 +50,20 @@ public class AddContactActivity extends AppCompatActivity {
                 return;
             }
 
-            // Tạo object ContactItem
             ContactItem newContact = new ContactItem(name, phone, status, selectedImagePath);
 
-            // Trả dữ liệu về MainActivity
             Intent resultIntent = new Intent();
             resultIntent.putExtra("NEW_CONTACT", newContact);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         });
 
-        // 3. Hủy (Cancel)
         btnCancel.setOnClickListener(v -> {
             setResult(Activity.RESULT_CANCELED);
             finish();
         });
     }
 
-    // Nhận ảnh từ thư viện về
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

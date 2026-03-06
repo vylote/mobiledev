@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     ContactRepository repo;
     ContactActionHandler actionHandler;
     ArrayAdapter<ContactItem> adapter;
-
     private int currentSelectedPosition = -1;
     static final int REQ_ADD_CONTACT = 999, REQ_EDIT_CONTACT = 1000,
             REQ_OPEN_CAMERA = 101, REQ_OPEN_GALLERY = 102;

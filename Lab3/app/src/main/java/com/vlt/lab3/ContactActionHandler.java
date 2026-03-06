@@ -18,6 +18,7 @@ public class ContactActionHandler {
     public void handle(MenuItem item, ContactItem contact, int realIndex) {
         int id = item.getItemId();
 
+
         if (id == R.id.menu_edit) {
             Intent i = new Intent(activity, EditContactActivity.class);
             i.putExtra("DATA_TO_EDIT", contact);

@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+
 public class AddContactActivity extends AppCompatActivity {
 
     ImageView imgAvatar;
@@ -38,6 +40,8 @@ public class AddContactActivity extends AppCompatActivity {
             Intent i = new Intent(Intent.ACTION_PICK);
             i.setType("image/*");
             startActivityForResult(i, REQ_PICK_IMAGE);
+            /*Bản thân ứng dụng Gallery đó đã được lập trình sẵn là: Khi người dùng chọn xong 1
+            tấm ảnh, nó sẽ gọi setResult(RESULT_OK, intent_chứa_uri_ảnh) và sau đó gọi finish().*/
         });
 
         btnSave.setOnClickListener(v -> {
@@ -69,8 +73,12 @@ public class AddContactActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_PICK_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
-            selectedImagePath = uri.toString();
-            imgAvatar.setImageURI(uri);
+
+            // GỌI HÀM COPY ẢNH Ở ĐÂY
+            String realPath = ImageUtils.getImagePathFromUri(this, uri);
+
+            selectedImagePath = realPath;
+            imgAvatar.setImageURI(Uri.fromFile(new File(realPath)));
         }
     }
 }

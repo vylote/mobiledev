@@ -30,8 +30,6 @@ import com.vlt.lab4.repository.ThiSinhRepository;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    TextView lbApp;
     EditText edtSearch;
     ListView lThiSinh;
     FloatingActionButton fabAdd;
@@ -66,6 +64,29 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        int id = item.getItemId();
+
+        if (id == R.id.menu_sort_score) {
+            adapter.updateList(repo.getAllSortedByTotalScore());
+            return true;
+        } else if (id == R.id.menu_sort_sbd) {
+            adapter.updateList(repo.getAllSortedBySBD());
+            return true;
+        } else if (id == R.id.menu_sort_dtb) {
+            adapter.updateList(repo.getAllSortedByDTB());
+        } else if (id == R.id.menu_sort_reset) {
+            adapter.updateList(repo.getAll());
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

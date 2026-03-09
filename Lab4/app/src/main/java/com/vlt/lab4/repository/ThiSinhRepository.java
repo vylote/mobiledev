@@ -9,6 +9,7 @@ import com.vlt.lab4.database.DatabaseHelper;
 import com.vlt.lab4.models.ThiSinh;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ThiSinhRepository {
     private DatabaseHelper dbHelper;
@@ -134,6 +135,47 @@ public class ThiSinhRepository {
             } while (cursor.moveToNext());
             cursor.close();
         }
+        return list;
+    }
+
+    public ArrayList<ThiSinh> getAllSortedByTotalScore() {
+        ArrayList<ThiSinh> list = getAll();
+
+        Collections.sort(list, (ts1, ts2) ->
+                Float.compare(ts1.tongDiem(), ts2.tongDiem()));
+
+        return list;
+    }
+
+    public ArrayList<ThiSinh> getAllSortedBySBD() {
+        ArrayList<ThiSinh> list = getAll();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String sql = "SELECT * FROM "+DatabaseHelper.TABLE_NAME
+                +" ORDER BY "+DatabaseHelper.COLUMN_SBD+" ASC";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                list.add(new ThiSinh(
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        cursor.getFloat(2),
+                        cursor.getFloat(3),
+                        cursor.getFloat(4)
+                ));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return list;
+    }
+
+    public ArrayList<ThiSinh> getAllSortedByDTB() {
+        ArrayList<ThiSinh> list = getAll();
+
+        Collections.sort(list, (ts1, ts2) ->
+                Float.compare(ts1.diemTB(), ts2.diemTB()));
+
         return list;
     }
 }

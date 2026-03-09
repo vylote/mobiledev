@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_add_toolbar"
-        android:title="Tăng dần theo tổng điểm"
+        android:id="@+id/menu_sort_score"
+        android:title="Tăng dần tổng điểm"
+        android:icon="@android:drawable/ic_menu_add" />
+    <item
+        android:id="@+id/menu_sort_sbd"
+        android:title="Tăng dần SBD"
+        android:icon="@android:drawable/ic_menu_add" />
+    <item
+        android:id="@+id/menu_sort_dtb"
+        android:title="Tăng dần đtb"
+        android:icon="@android:drawable/ic_menu_add" />
+    <item
+        android:id="@+id/menu_sort_reset"
+        android:title="Đặt lại"
         android:icon="@android:drawable/ic_menu_add" />
 </menu>

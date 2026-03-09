@@ -3,7 +3,10 @@ package com.vlt.lab4;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,12 +19,15 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vlt.lab4.controllers.AddCandidateActivity;
 import com.vlt.lab4.controllers.EditCandidateActivity;
 import com.vlt.lab4.models.ThiSinh;
 import com.vlt.lab4.repository.ThiSinhRepository;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fabAdd;
     ThiSinhRepository repo;
     ThiSinhAdapter adapter;
+    Toolbar option;
 
     static final int REQ_ADD_CANDIDATE = 100, REQ_EDIT_CANDIDATE = 101;
 
@@ -41,17 +48,24 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        lbApp = findViewById(R.id.lbApp);
+        option = findViewById(R.id.toolbar);
+        setSupportActionBar(option);
         edtSearch = findViewById(R.id.edtSearch);
         lThiSinh = findViewById(R.id.lThiSinh);
         fabAdd = findViewById(R.id.fabAdd);
 
         repo = new ThiSinhRepository(this);
-        adapter = new ThiSinhAdapter(this, repo.getCopy());
+        adapter = new ThiSinhAdapter(this, repo.getAll());
         lThiSinh.setAdapter(adapter);
 
         registerForContextMenu(lThiSinh);
         setUpEvents();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     @Override
@@ -68,27 +82,23 @@ public class MainActivity extends AppCompatActivity {
         int position = info.position;
         int id = item.getItemId();
 
+        ThiSinh ts = adapter.getItem(position);
+
         if (id == R.id.menu_edit) {
-            ThiSinh ts = repo.getCopy().get(position);
-            int realIndex = repo.getData().indexOf(ts);
             Intent i = new Intent(this, EditCandidateActivity.class);
             i.putExtra("DATA_TO_EDIT", ts);
-            i.putExtra("REAL_INDEX", realIndex);
+            i.putExtra("OLD_SBD", ts.getSbd());
             startActivityForResult(i, REQ_EDIT_CANDIDATE);
         } else if (id == R.id.menu_delete) {
-            ThiSinh ts = repo.getCopy().get(position);
-            int realIndex = repo.getData().indexOf(ts);
 
             new AlertDialog.Builder(this)
                     .setTitle("Delete confirm")
                     .setMessage("Ban co chac chan muon xoa thi sinh: "+ts.getSbd())
                     .setIcon(android.R.drawable.ic_delete)
                     .setPositiveButton("Delete", (dialog, which) -> {
-                        if (realIndex != -1) {
-                            repo.delete(realIndex);
-                            adapter.notifyDataSetChanged();
-                            Toast.makeText(this, "Xoa thanh cong", Toast.LENGTH_SHORT).show();
-                        }
+                        repo.delete(ts.getSbd());
+                        refreshUI();
+                        Toast.makeText(this, "Xoa thanh cong", Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton("Cancel", (dialog, which) -> {
                         dialog.dismiss();
@@ -104,6 +114,25 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, AddCandidateActivity.class);
             startActivityForResult(i, REQ_ADD_CANDIDATE);
         });
+
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String keyword = s.toString().trim();
+                ArrayList<ThiSinh> filteredList = repo.filter(keyword);
+                adapter.updateList(filteredList);
+            }
+        });
     }
 
     @Override
@@ -115,16 +144,20 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQ_ADD_CANDIDATE) {
             ThiSinh ts = (ThiSinh) data.getSerializableExtra("NEW_CANDIDATE");
             repo.add(ts);
-            adapter.notifyDataSetChanged();
+            refreshUI();
         }
 
         if (requestCode == REQ_EDIT_CANDIDATE) {
             ThiSinh ts = (ThiSinh) data.getSerializableExtra("UPDATE_CANDIDATE");
-            int realIndex = data.getIntExtra("REAL_INDEX", -1);
-            if (realIndex != -1 && ts != null) {
-                repo.update(realIndex, ts);
-                adapter.notifyDataSetChanged();
+            String oldSbd = data.getStringExtra("OLD_SBD");
+            if (ts != null && oldSbd != null) {
+                repo.update(oldSbd, ts);
+                refreshUI();
             }
         }
+    }
+
+    private void refreshUI() {
+        adapter.updateList(repo.getAll());
     }
 }

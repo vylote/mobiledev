@@ -59,4 +59,14 @@ public class ThiSinhAdapter extends ArrayAdapter<ThiSinh> {
 
         return convertView;
     }
+
+    public void updateList(ArrayList<ThiSinh> newList) {
+        this.data.clear();
+
+        if (newList != null) {
+            this.data.addAll(newList);
+        }
+
+        notifyDataSetChanged();
+    }
 }

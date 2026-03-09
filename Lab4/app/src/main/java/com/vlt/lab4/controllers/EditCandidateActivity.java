@@ -17,7 +17,8 @@ public class EditCandidateActivity extends AppCompatActivity {
     Button btnSua, btnQV;
     boolean isDataValid;
     ThiSinh ts;
-    int realIndex = -1;
+//    int realIndex = -1;
+    String oldSbd = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class EditCandidateActivity extends AppCompatActivity {
         btnQV = findViewById(R.id.btnQV);
 
         ts = (ThiSinh) getIntent().getSerializableExtra("DATA_TO_EDIT");
-        realIndex = getIntent().getIntExtra("REAL_INDEX", -1);
+        oldSbd = getIntent().getStringExtra("OLD_SBD");
 
         if (ts != null) {
             edtSbd.setText(ts.getSbd());
@@ -63,7 +64,7 @@ public class EditCandidateActivity extends AppCompatActivity {
 
                 Intent resIntent = new Intent();
                 resIntent.putExtra("UPDATE_CANDIDATE", ts);
-                resIntent.putExtra("REAL_INDEX", realIndex);
+                resIntent.putExtra("OLD_SBD", oldSbd);
                 setResult(RESULT_OK, resIntent);
                 finish();
             }

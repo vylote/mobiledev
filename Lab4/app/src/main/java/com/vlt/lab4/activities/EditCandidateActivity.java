@@ -1,4 +1,4 @@
-package com.vlt.lab4.controllers;
+package com.vlt.lab4.activities;
 
 import android.app.Activity;
 import android.content.Intent;

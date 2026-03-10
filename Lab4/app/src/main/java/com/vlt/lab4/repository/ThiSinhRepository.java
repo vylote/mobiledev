@@ -109,7 +109,7 @@ public class ThiSinhRepository {
         db.close();
     }
 
-    public ArrayList<ThiSinh> filter(String keyword) {
+    /*public ArrayList<ThiSinh> filter(String keyword) {
         ArrayList<ThiSinh> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -175,6 +175,38 @@ public class ThiSinhRepository {
 
         Collections.sort(list, (ts1, ts2) ->
                 Float.compare(ts1.diemTB(), ts2.diemTB()));
+
+        return list;
+    }*/
+
+    public ArrayList<ThiSinh> getData(String keyword, String sortType) {
+        ArrayList<ThiSinh> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String sql = "SELECT * FROM " + DatabaseHelper.TABLE_NAME +
+                " WHERE " + DatabaseHelper.COLUMN_HOTEN + " LIKE ?";
+
+        if (sortType.equals("SBD_ASC")) {
+            sql += " ORDER BY " + DatabaseHelper.COLUMN_SBD + " ASC";
+        }
+
+        Cursor cursor = db.rawQuery(sql, new String[]{"%" + keyword + "%"});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                list.add(new ThiSinh(
+                        cursor.getString(0), cursor.getString(1),
+                        cursor.getFloat(2), cursor.getFloat(3), cursor.getFloat(4)
+                ));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        if (sortType.equals("SCORE_ASC")) {
+            Collections.sort(list, (ts1, ts2) -> Float.compare(ts1.tongDiem(), ts2.tongDiem()));
+        } else if (sortType.equals("AVG_SCORE_ASC")) {
+            Collections.sort(list, (ts1, ts2) -> Float.compare(ts1.diemTB(), ts2.diemTB()));
+        }
 
         return list;
     }

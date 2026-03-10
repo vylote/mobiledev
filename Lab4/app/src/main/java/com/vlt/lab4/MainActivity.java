@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -22,8 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.vlt.lab4.controllers.AddCandidateActivity;
-import com.vlt.lab4.controllers.EditCandidateActivity;
+import com.vlt.lab4.activities.AddCandidateActivity;
+import com.vlt.lab4.activities.EditCandidateActivity;
+import com.vlt.lab4.adapter.ThiSinhAdapter;
 import com.vlt.lab4.models.ThiSinh;
 import com.vlt.lab4.repository.ThiSinhRepository;
 
@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     Toolbar option;
 
     static final int REQ_ADD_CANDIDATE = 100, REQ_EDIT_CANDIDATE = 101;
+    private String currentKeyword = "";
+    private String currentSortType = "NONE";
 
 
     @Override
@@ -68,21 +70,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info =
-                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
         int id = item.getItemId();
 
         if (id == R.id.menu_sort_score) {
-            adapter.updateList(repo.getAllSortedByTotalScore());
+            currentSortType = "SCORE_ASC";
+            refreshUI();
             return true;
         } else if (id == R.id.menu_sort_sbd) {
-            adapter.updateList(repo.getAllSortedBySBD());
+            currentSortType = "SBD_ASC";
+            refreshUI();
             return true;
         } else if (id == R.id.menu_sort_dtb) {
-            adapter.updateList(repo.getAllSortedByDTB());
+            currentSortType = "AVG_SCORE_ASC";
+            refreshUI();
+            return true;
         } else if (id == R.id.menu_sort_reset) {
-            adapter.updateList(repo.getAll());
+            currentSortType = "";
+            refreshUI();
             return true;
         }
 
@@ -149,9 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String keyword = s.toString().trim();
-                ArrayList<ThiSinh> filteredList = repo.filter(keyword);
-                adapter.updateList(filteredList);
+                currentKeyword = s.toString().trim();
+                refreshUI();
             }
         });
     }
@@ -179,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshUI() {
-        adapter.updateList(repo.getAll());
+        ArrayList<ThiSinh> processedData = repo.getData(currentKeyword, currentSortType);
+        adapter.updateList(processedData);
     }
 }

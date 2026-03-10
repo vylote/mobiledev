@@ -1,4 +1,4 @@
-package com.vlt.lab4;
+package com.vlt.lab4.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.vlt.lab4.R;
 import com.vlt.lab4.models.ThiSinh;
 
 import java.util.ArrayList;

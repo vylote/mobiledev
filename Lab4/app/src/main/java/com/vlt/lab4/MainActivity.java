@@ -2,7 +2,11 @@ package com.vlt.lab4;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -47,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // Kiểm tra xem đã có quyền đọc danh bạ chưa
+        if (checkSelfPermission(android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            // Nếu chưa có thì yêu cầu cấp quyền
+            requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS}, 100);
+        }
 
         option = findViewById(R.id.toolbar);
         setSupportActionBar(option);
@@ -129,6 +139,29 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     })
                     .show();
+        } else if (id == R.id.menu_find_phone_name) {
+            String hoTen = ts.getHoTen();
+            ArrayList<String> phones = findContactPhone(hoTen);
+
+            if (!phones.isEmpty()) {
+                // Gộp các số điện thoại tìm được thành một chuỗi để hiển thị
+                StringBuilder sb = new StringBuilder();
+                for (String p : phones) {
+                    sb.append("- ").append(p).append("\n");
+                }
+
+                new AlertDialog.Builder(this)
+                        .setTitle("SĐT tìm được cho: " + hoTen)
+                        .setMessage(sb.toString())
+                        .setPositiveButton("Đóng", null)
+                        .show();
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle("SĐT tìm cho: " + hoTen)
+                        .setMessage("Không có sdt thí sinh này")
+                        .setPositiveButton("Đóng", null)
+                        .show();
+            }
         }
 
         return super.onContextItemSelected(item);
@@ -184,5 +217,38 @@ public class MainActivity extends AppCompatActivity {
     private void refreshUI() {
         ArrayList<ThiSinh> processedData = repo.getData(currentKeyword, currentSortType);
         adapter.updateList(processedData);
+    }
+
+    private ArrayList<String> findContactPhone(String candidateName) {
+        ArrayList<String> list = new ArrayList<>();
+
+        // --- ĐÂY LÀ ĐỊA CHỈ CỦA CONTENT PROVIDER ---
+        // URI này trỏ thẳng tới "nhà" của ứng dụng Danh bạ hệ thống
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+
+        //Chỉ lấy cột số điện thoại
+        String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+        /*Điều kiện lọc dữ liệu (tương đương với mệnh đề WHERE trong SQL)
+        Tìm người có tên khớp với biến truyền vào*/
+        String selection = "UPPER(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") = UPPER(?)";
+        //Các giá trị cụ thể để thay thế vào dấu '?' trong phần Selection
+        String[] selectionArgs = {candidateName};
+        //tuong tu order by
+        String sortOrder = ContactsContract.CommonDataKinds.Phone.NUMBER + " ASC";
+
+        // --- ĐÂY LÀ CONTENT RESOLVER ---
+        // getContentResolver() là "người đi mượn" dữ liệu từ ứng dụng khác
+        try (Cursor cursor = getContentResolver().query(uri, projection, selection, selectionArgs, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    list.add(cursor.getString(0));
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

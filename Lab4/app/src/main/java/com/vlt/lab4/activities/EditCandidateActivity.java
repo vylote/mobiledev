@@ -13,7 +13,7 @@ import com.vlt.lab4.R;
 import com.vlt.lab4.models.ThiSinh;
 
 public class EditCandidateActivity extends AppCompatActivity {
-    EditText edtSbd, edtHoTen, edtToan, edtLy, edtHoa;
+    EditText edtSbd, edtHoTen, edtSdt, edtToan, edtLy, edtHoa;
     Button btnSua, btnQV;
     boolean isDataValid;
     ThiSinh ts;
@@ -54,6 +54,7 @@ public class EditCandidateActivity extends AppCompatActivity {
 
             String sbd = edtSbd.getText().toString().trim();
             String ht = edtHoTen.getText().toString().trim();
+            String sdt = edtSdt.getText().toString().trim();
 
             float toan = validateAndGetScore(edtToan);
             float ly = validateAndGetScore(edtLy);

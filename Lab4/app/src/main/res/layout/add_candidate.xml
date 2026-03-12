@@ -50,6 +50,14 @@
                 android:text="Họ tên" />
 
             <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Số điện thoại" />
+
+            <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

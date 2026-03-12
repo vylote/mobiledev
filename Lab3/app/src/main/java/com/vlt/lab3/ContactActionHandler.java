@@ -91,6 +91,16 @@ public class ContactActionHandler {
                     })
                     .setNegativeButton("Hủy", null)
                     .show();
+        } else if (id == R.id.menu_open_browser) {
+            String url = "http://"+contact.getName()+" "+contact.getPhone();
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = "https://" + url;
+            }
+
+            Uri webPage = Uri.parse(url);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+            activity.startActivity(intent);
         }
     }
 }

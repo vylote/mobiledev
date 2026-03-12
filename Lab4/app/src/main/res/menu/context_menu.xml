@@ -6,4 +6,7 @@
     <item
         android:id="@+id/menu_delete"
         android:title="Xóa" />
+    <item
+        android:id="@+id/menu_find_phone_name"
+        android:title="SDT theo tên" />
 </menu>

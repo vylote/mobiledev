@@ -48,9 +48,9 @@ public class ThiSinhRepository {
                 list.add(new ThiSinh(
                     cursor.getString(0),
                     cursor.getString(1),
-                    cursor.getFloat(2),
                     cursor.getFloat(3),
-                    cursor.getFloat(4)
+                    cursor.getFloat(4),
+                    cursor.getFloat(5)
                 ));
             } while (cursor.moveToNext());
             cursor.close();
@@ -195,8 +195,11 @@ public class ThiSinhRepository {
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 list.add(new ThiSinh(
-                        cursor.getString(0), cursor.getString(1),
-                        cursor.getFloat(2), cursor.getFloat(3), cursor.getFloat(4)
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        cursor.getFloat(3),
+                        cursor.getFloat(4),
+                        cursor.getFloat(5)
                 ));
             } while (cursor.moveToNext());
             cursor.close();

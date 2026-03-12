@@ -2,8 +2,10 @@ package com.vlt.lab4;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -29,6 +31,8 @@ import com.vlt.lab4.activities.AddCandidateActivity;
 import com.vlt.lab4.activities.EditCandidateActivity;
 import com.vlt.lab4.adapter.ThiSinhAdapter;
 import com.vlt.lab4.models.ThiSinh;
+import com.vlt.lab4.receivers.BatteryReceiver;
+import com.vlt.lab4.receivers.NetworkReceiver;
 import com.vlt.lab4.repository.ThiSinhRepository;
 
 import java.util.ArrayList;
@@ -45,18 +49,40 @@ public class MainActivity extends AppCompatActivity {
     private String currentKeyword = "";
     private String currentSortType = "NONE";
 
+    private NetworkReceiver networkReceiver;
+    private BatteryReceiver batteryReceiver;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // 1. Khởi tạo receiver
+        networkReceiver = new NetworkReceiver();
+        batteryReceiver = new BatteryReceiver();
+        // 2. Tạo bộ lọc hành động kết nối mạng
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        IntentFilter filter1 = new IntentFilter(Intent.ACTION_BATTERY_LOW);
+        // 3. Đăng ký receiver động
+        registerReceiver(networkReceiver, filter);
+        registerReceiver(batteryReceiver, filter1);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Đừng quên hủy đăng ký khi app đóng để tránh rò rỉ bộ nhớ
+        if (networkReceiver != null) {
+            unregisterReceiver(networkReceiver);
+        }
+        if (batteryReceiver != null) {
+            unregisterReceiver(batteryReceiver);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
-        // Kiểm tra xem đã có quyền đọc danh bạ chưa
-        if (checkSelfPermission(android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            // Nếu chưa có thì yêu cầu cấp quyền
-            requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS}, 100);
-        }
 
         option = findViewById(R.id.toolbar);
         setSupportActionBar(option);
